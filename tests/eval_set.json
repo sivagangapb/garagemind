@@ -1,0 +1,22 @@
+{
+  "_meta": {
+    "description": "Labeled evaluation set for the GarageMind agent: each case pairs a realistic user report with the expected agent behavior. Run via tests/test_agent.py::test_eval_set_accuracy, which asserts an overall accuracy threshold -- treat this like a small hand-labeled precision benchmark, not just example inputs."
+  },
+  "cases": [
+    {"input": "P0171", "expected_status": "diagnosed", "expected_top_dtc": "P0171"},
+    {"input": "my scan tool shows P0300 and the engine shakes at idle", "expected_status": "diagnosed", "expected_top_dtc": "P0300"},
+    {"input": "code P0420, smells like sulfur from the exhaust", "expected_status": "diagnosed", "expected_top_dtc": "P0420"},
+    {"input": "P0455 came up after I filled up gas", "expected_status": "diagnosed", "expected_top_dtc": "P0455"},
+    {"input": "P0740, and there's a shudder around 60mph", "expected_status": "diagnosed", "expected_top_dtc": "P0740"},
+    {"input": "shudder at cruising speed and poor fuel economy", "expected_status": "diagnosed", "expected_top_dtc": "P0740"},
+    {"input": "car is stuck in limp mode and the transmission light is on, shifting is harsh and delayed", "expected_status": "diagnosed", "expected_top_dtc": "P0700"},
+    {"input": "battery warning light, dim headlights, and hard starting", "expected_status": "diagnosed", "expected_top_dtc": "P0562"},
+    {"input": "check engine light is on", "expected_status": "needs_clarification"},
+    {"input": "stalling", "expected_status": "needs_clarification"},
+    {"input": "my car feels weird sometimes", "expected_status": "needs_clarification"},
+    {"input": "", "expected_status": "needs_clarification"},
+    {"input": "P0171 and P0174 both showing, rough idle", "expected_status": "diagnosed", "expected_matched_dtcs_include": ["P0171", "P0174"]},
+    {"input": "cylinder 1 misfire, code P0301", "expected_status": "diagnosed", "expected_top_dtc": "P0301"},
+    {"input": "P9999", "expected_status": "needs_clarification"}
+  ]
+}

@@ -1,0 +1,150 @@
+{
+  "name": "GarageMind - Diagnostic Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "garagemind-diagnose",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "1a1a1a1a-0000-4000-8000-000000000001",
+      "name": "Webhook - Intake",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [-600, 300],
+      "webhookId": "garagemind-diagnose",
+      "notes": "External trigger: a scan-tool app, intake form, or chat bot POSTs { \"report\": \"...\" } here."
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.GARAGEMIND_API_URL || 'http://host.docker.internal:8000' }}/diagnose",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ report: $json.body.report }) }}",
+        "options": { "timeout": 30000 }
+      },
+      "id": "2b2b2b2b-0000-4000-8000-000000000002",
+      "name": "Call GarageMind Agent",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [-380, 300],
+      "notes": "Calls the FastAPI service (src/api/main.py) which runs the LangGraph + GraphRAG agent and returns a structured report."
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "loose" },
+          "conditions": [
+            {
+              "id": "c1",
+              "leftValue": "={{ $json.report.status }}",
+              "rightValue": "needs_clarification",
+              "operator": { "type": "string", "operation": "equals" }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "3c3c3c3c-0000-4000-8000-000000000003",
+      "name": "Needs Clarification?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [-160, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "loose" },
+          "conditions": [
+            {
+              "id": "c2",
+              "leftValue": "={{ $json.report.severity_by_code ? Object.values($json.report.severity_by_code).includes('high') || Object.values($json.report.severity_by_code).includes('critical') : false }}",
+              "rightValue": true,
+              "operator": { "type": "boolean", "operation": "equals" }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "4d4d4d4d-0000-4000-8000-000000000004",
+      "name": "High Severity?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [80, 460]
+    },
+    {
+      "parameters": {
+        "fromEmail": "garagemind@yourshop.example",
+        "toEmail": "={{ $json.body.notify_email || 'service-desk@yourshop.example' }}",
+        "subject": "=[GarageMind] URGENT diagnosis for {{ $json.report.matched_dtcs.join(', ') }}",
+        "emailFormat": "text",
+        "text": "=High-severity issue detected.\n\nCodes: {{ $json.report.matched_dtcs.join(', ') }}\nTop cause: {{ $json.report.top_cause?.cause }} (confidence: {{ $json.report.confidence }})\n\nSummary:\n{{ $json.report.summary }}\n\nRecommended fixes:\n{{ JSON.stringify($json.report.recommended_fixes, null, 2) }}",
+        "options": {}
+      },
+      "id": "5e5e5e5e-0000-4000-8000-000000000005",
+      "name": "Notify Service Desk (High Severity)",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [320, 380],
+      "notes": "Swap for a Slack/Teams node if you'd rather page a channel than send email. Credentials must be configured in n8n before this node will run."
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": { "value": "={{ $env.GARAGEMIND_SHEET_ID }}", "mode": "id" },
+        "sheetName": { "value": "Diagnoses", "mode": "name" },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "timestamp": "={{ $now.toISO() }}",
+            "input": "={{ $('Webhook - Intake').item.json.body.report }}",
+            "matched_dtcs": "={{ $json.report.matched_dtcs?.join(', ') }}",
+            "confidence": "={{ $json.report.confidence }}",
+            "top_cause": "={{ $json.report.top_cause?.cause }}"
+          }
+        },
+        "options": {}
+      },
+      "id": "6f6f6f6f-0000-4000-8000-000000000006",
+      "name": "Log to Google Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [320, 540],
+      "notes": "Every diagnosis (clarification or resolved) gets logged here for an audit trail / dataset you can later use to improve the DTC knowledge base."
+    },
+    {
+      "parameters": { "respondWith": "allIncomingItems", "options": {} },
+      "id": "7a7a7a7a-0000-4000-8000-000000000007",
+      "name": "Respond to Caller",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.2,
+      "position": [560, 300]
+    }
+  ],
+  "connections": {
+    "Webhook - Intake": { "main": [[{ "node": "Call GarageMind Agent", "type": "main", "index": 0 }]] },
+    "Call GarageMind Agent": { "main": [[{ "node": "Needs Clarification?", "type": "main", "index": 0 }]] },
+    "Needs Clarification?": {
+      "main": [
+        [{ "node": "Log to Google Sheet", "type": "main", "index": 0 }],
+        [{ "node": "High Severity?", "type": "main", "index": 0 }]
+      ]
+    },
+    "High Severity?": {
+      "main": [
+        [{ "node": "Notify Service Desk (High Severity)", "type": "main", "index": 0 }],
+        [{ "node": "Log to Google Sheet", "type": "main", "index": 0 }]
+      ]
+    },
+    "Notify Service Desk (High Severity)": { "main": [[{ "node": "Log to Google Sheet", "type": "main", "index": 0 }]] },
+    "Log to Google Sheet": { "main": [[{ "node": "Respond to Caller", "type": "main", "index": 0 }]] }
+  },
+  "meta": {
+    "description": "Trigger: POST /webhook/garagemind-diagnose with { \"report\": \"P0171 and rough idle\" }. Automates around the GarageMind FastAPI+LangGraph agent: routes high-severity diagnoses to a notification, logs every call to a sheet for audit/dataset purposes, and returns the structured report to the caller. Import via n8n UI: Workflows -> Import from File.",
+    "instanceId": "garagemind-demo"
+  }
+}

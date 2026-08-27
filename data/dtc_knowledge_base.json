@@ -1,0 +1,595 @@
+{
+  "_meta": {
+    "description": "Curated SAE J2012 generic (P0xxx) OBD-II diagnostic trouble code knowledge base for GarageMind. Codes, causes, components and fixes reflect standard, widely-documented automotive diagnostic knowledge and are used to build a typed knowledge graph for GraphRAG retrieval.",
+    "severity_scale": ["low", "moderate", "high", "critical"]
+  },
+  "dtc_codes": [
+    {
+      "code": "P0100",
+      "description": "Mass or Volume Air Flow Circuit Malfunction",
+      "system": "Fuel and Air Metering",
+      "severity": "moderate",
+      "symptoms": ["check engine light", "rough idle", "stalling", "poor acceleration"],
+      "components": ["MAF sensor", "MAF wiring harness", "intake tract"],
+      "causes": [
+        {"cause": "damaged or corroded MAF sensor wiring/connector", "likelihood": "high"},
+        {"cause": "contaminated MAF sensor element", "likelihood": "high"},
+        {"cause": "air intake leak after the MAF sensor", "likelihood": "medium"}
+      ],
+      "fixes": [
+        "Inspect and clean MAF sensor wiring and connector",
+        "Clean MAF sensor element with MAF-safe cleaner",
+        "Inspect intake boot/ducting downstream of MAF for cracks"
+      ],
+      "related_codes": ["P0101", "P0171", "P0174"]
+    },
+    {
+      "code": "P0101",
+      "description": "Mass or Volume Air Flow Circuit Range/Performance Problem",
+      "system": "Fuel and Air Metering",
+      "severity": "moderate",
+      "symptoms": ["check engine light", "hesitation on acceleration", "poor fuel economy", "rough idle"],
+      "components": ["MAF sensor", "intake tract", "PCV system"],
+      "causes": [
+        {"cause": "dirty or failing MAF sensor", "likelihood": "high"},
+        {"cause": "vacuum/intake leak skewing airflow reading", "likelihood": "high"},
+        {"cause": "clogged air filter", "likelihood": "medium"},
+        {"cause": "PCV system malfunction", "likelihood": "low"}
+      ],
+      "fixes": [
+        "Clean or replace MAF sensor",
+        "Smoke-test intake tract for leaks",
+        "Replace air filter",
+        "Inspect PCV valve and hoses"
+      ],
+      "related_codes": ["P0100", "P0171", "P0174"]
+    },
+    {
+      "code": "P0113",
+      "description": "Intake Air Temperature Sensor Circuit High Input",
+      "system": "Fuel and Air Metering",
+      "severity": "low",
+      "symptoms": ["check engine light", "poor cold-start performance", "slightly rich or lean running"],
+      "components": ["IAT sensor", "IAT wiring harness"],
+      "causes": [
+        {"cause": "open circuit or disconnected IAT sensor connector", "likelihood": "high"},
+        {"cause": "failed IAT sensor (open internally)", "likelihood": "medium"}
+      ],
+      "fixes": [
+        "Inspect IAT sensor connector and wiring for opens",
+        "Test sensor resistance vs. temperature chart and replace if out of spec"
+      ],
+      "related_codes": ["P0100", "P0101"]
+    },
+    {
+      "code": "P0128",
+      "description": "Coolant Thermostat (Coolant Temperature Below Thermostat Regulating Temperature)",
+      "system": "Fuel and Air Metering",
+      "severity": "low",
+      "symptoms": ["check engine light", "poor heater performance", "reduced fuel economy", "longer warm-up time"],
+      "components": ["thermostat", "coolant temperature sensor"],
+      "causes": [
+        {"cause": "thermostat stuck open", "likelihood": "high"},
+        {"cause": "faulty coolant temperature sensor", "likelihood": "medium"},
+        {"cause": "low coolant level", "likelihood": "low"}
+      ],
+      "fixes": [
+        "Replace thermostat",
+        "Test and replace coolant temperature sensor if out of spec",
+        "Check and top up coolant level"
+      ],
+      "related_codes": []
+    },
+    {
+      "code": "P0130",
+      "description": "O2 Sensor Circuit Malfunction (Bank 1 Sensor 1)",
+      "system": "Fuel and Air Metering",
+      "severity": "moderate",
+      "symptoms": ["check engine light", "poor fuel economy", "rough idle", "failed emissions test"],
+      "components": ["upstream O2 sensor (Bank 1 Sensor 1)", "O2 sensor wiring"],
+      "causes": [
+        {"cause": "failed or contaminated upstream O2 sensor", "likelihood": "high"},
+        {"cause": "damaged O2 sensor wiring or connector", "likelihood": "medium"},
+        {"cause": "exhaust leak near sensor bung", "likelihood": "low"}
+      ],
+      "fixes": [
+        "Replace upstream O2 sensor",
+        "Repair wiring/connector",
+        "Inspect exhaust manifold/downpipe for leaks near the sensor"
+      ],
+      "related_codes": ["P0135", "P0171", "P0172", "P0420"]
+    },
+    {
+      "code": "P0135",
+      "description": "O2 Sensor Heater Circuit Malfunction (Bank 1 Sensor 1)",
+      "system": "Fuel and Air Metering",
+      "severity": "low",
+      "symptoms": ["check engine light", "slower closed-loop entry (worse cold-start economy)"],
+      "components": ["upstream O2 sensor heater circuit", "O2 sensor fuse/relay"],
+      "causes": [
+        {"cause": "failed O2 sensor heater element", "likelihood": "high"},
+        {"cause": "blown fuse or bad relay for sensor heater", "likelihood": "medium"},
+        {"cause": "open/shorted heater wiring", "likelihood": "medium"}
+      ],
+      "fixes": [
+        "Replace O2 sensor",
+        "Check heater circuit fuse and relay",
+        "Repair heater circuit wiring"
+      ],
+      "related_codes": ["P0130", "P0420"]
+    },
+    {
+      "code": "P0171",
+      "description": "System Too Lean (Bank 1)",
+      "system": "Fuel and Air Metering",
+      "severity": "moderate",
+      "symptoms": ["check engine light", "rough idle", "hesitation on acceleration", "poor fuel economy", "engine surging"],
+      "components": ["MAF sensor", "intake vacuum lines/gaskets", "fuel pump", "fuel injectors", "upstream O2 sensor"],
+      "causes": [
+        {"cause": "vacuum leak (intake manifold gasket, hoses, PCV)", "likelihood": "high"},
+        {"cause": "dirty or failing MAF sensor", "likelihood": "high"},
+        {"cause": "weak fuel pump or low fuel pressure", "likelihood": "medium"},
+        {"cause": "clogged fuel injector(s)", "likelihood": "medium"},
+        {"cause": "exhaust leak upstream of the O2 sensor", "likelihood": "low"}
+      ],
+      "fixes": [
+        "Smoke-test the intake for vacuum leaks and inspect hoses/gaskets",
+        "Clean or replace the MAF sensor",
+        "Check fuel pressure against spec",
+        "Inspect and clean fuel injectors",
+        "Inspect exhaust manifold for leaks upstream of the O2 sensor"
+      ],
+      "related_codes": ["P0174", "P0100", "P0101", "P0130", "P0300"]
+    },
+    {
+      "code": "P0172",
+      "description": "System Too Rich (Bank 1)",
+      "system": "Fuel and Air Metering",
+      "severity": "moderate",
+      "symptoms": ["check engine light", "black exhaust smoke", "strong fuel smell", "poor fuel economy", "rough idle"],
+      "components": ["fuel injectors", "fuel pressure regulator", "MAF sensor", "upstream O2 sensor"],
+      "causes": [
+        {"cause": "leaking or stuck-open fuel injector(s)", "likelihood": "high"},
+        {"cause": "faulty fuel pressure regulator", "likelihood": "high"},
+        {"cause": "dirty or failing MAF sensor over-reporting airflow", "likelihood": "medium"},
+        {"cause": "failed upstream O2 sensor sending false lean signal", "likelihood": "medium"},
+        {"cause": "clogged air filter restricting intake air", "likelihood": "low"}
+      ],
+      "fixes": [
+        "Test and clean/replace fuel injectors",
+        "Test fuel pressure regulator and replace if leaking",
+        "Clean or replace MAF sensor",
+        "Replace upstream O2 sensor if reading incorrectly",
+        "Replace air filter"
+      ],
+      "related_codes": ["P0130", "P0230", "P0420"]
+    },
+    {
+      "code": "P0174",
+      "description": "System Too Lean (Bank 2)",
+      "system": "Fuel and Air Metering",
+      "severity": "moderate",
+      "symptoms": ["check engine light", "rough idle", "hesitation on acceleration", "poor fuel economy"],
+      "components": ["MAF sensor", "intake vacuum lines/gaskets (Bank 2 side)", "fuel injectors (Bank 2)"],
+      "causes": [
+        {"cause": "vacuum leak on Bank 2 intake", "likelihood": "high"},
+        {"cause": "dirty or failing MAF sensor", "likelihood": "high"},
+        {"cause": "clogged fuel injector(s) on Bank 2", "likelihood": "medium"}
+      ],
+      "fixes": [
+        "Smoke-test Bank 2 intake for vacuum leaks",
+        "Clean or replace MAF sensor",
+        "Inspect and clean Bank 2 fuel injectors"
+      ],
+      "related_codes": ["P0171", "P0100", "P0101"]
+    },
+    {
+      "code": "P0201",
+      "description": "Injector Circuit Malfunction - Cylinder 1",
+      "system": "Fuel and Air Metering",
+      "severity": "moderate",
+      "symptoms": ["check engine light", "cylinder misfire", "rough idle", "reduced power"],
+      "components": ["fuel injector (cylinder 1)", "injector wiring harness", "ECM injector driver"],
+      "causes": [
+        {"cause": "open or shorted injector wiring", "likelihood": "high"},
+        {"cause": "failed fuel injector coil", "likelihood": "medium"},
+        {"cause": "failed ECM injector driver circuit", "likelihood": "low"}
+      ],
+      "fixes": [
+        "Inspect and repair injector wiring/connector",
+        "Test injector resistance and replace if out of spec",
+        "Test ECM driver output with a noid light"
+      ],
+      "related_codes": ["P0300", "P0301"]
+    },
+    {
+      "code": "P0230",
+      "description": "Fuel Pump Primary Circuit Malfunction",
+      "system": "Fuel and Air Metering",
+      "severity": "high",
+      "symptoms": ["check engine light", "hard starting", "stalling", "no-start", "loss of power under load"],
+      "components": ["fuel pump", "fuel pump relay", "fuel pump wiring"],
+      "causes": [
+        {"cause": "failed fuel pump relay", "likelihood": "high"},
+        {"cause": "open or shorted fuel pump wiring", "likelihood": "medium"},
+        {"cause": "worn/failing fuel pump motor", "likelihood": "medium"}
+      ],
+      "fixes": [
+        "Test and replace fuel pump relay",
+        "Inspect fuel pump wiring and connectors",
+        "Test fuel pump current draw and pressure; replace pump if failing"
+      ],
+      "related_codes": ["P0171", "P0172"]
+    },
+    {
+      "code": "P0300",
+      "description": "Random/Multiple Cylinder Misfire Detected",
+      "system": "Ignition System",
+      "severity": "high",
+      "symptoms": ["check engine light (flashing under load)", "engine shaking/rough running", "loss of power", "smell of unburnt fuel"],
+      "components": ["spark plugs", "ignition coils", "fuel injectors", "fuel system", "vacuum system"],
+      "causes": [
+        {"cause": "worn or fouled spark plugs (multiple cylinders)", "likelihood": "high"},
+        {"cause": "vacuum leak causing lean misfire across cylinders", "likelihood": "high"},
+        {"cause": "low fuel pressure", "likelihood": "medium"},
+        {"cause": "failing ignition coil(s)", "likelihood": "medium"},
+        {"cause": "low compression across multiple cylinders", "likelihood": "low"}
+      ],
+      "fixes": [
+        "Inspect and replace spark plugs",
+        "Smoke-test intake for vacuum leaks",
+        "Check fuel pressure against spec",
+        "Test ignition coils and replace failing units",
+        "Run a compression/leak-down test if the above are ruled out"
+      ],
+      "related_codes": ["P0171", "P0301", "P0302", "P0325", "P0335"]
+    },
+    {
+      "code": "P0301",
+      "description": "Cylinder 1 Misfire Detected",
+      "system": "Ignition System",
+      "severity": "high",
+      "symptoms": ["check engine light (flashing under load)", "rough idle", "loss of power", "engine vibration"],
+      "components": ["spark plug (cyl 1)", "ignition coil (cyl 1)", "fuel injector (cyl 1)"],
+      "causes": [
+        {"cause": "fouled or worn spark plug in cylinder 1", "likelihood": "high"},
+        {"cause": "failing ignition coil for cylinder 1", "likelihood": "high"},
+        {"cause": "clogged or failed injector for cylinder 1", "likelihood": "medium"},
+        {"cause": "low compression in cylinder 1", "likelihood": "low"}
+      ],
+      "fixes": [
+        "Replace spark plug in cylinder 1",
+        "Swap ignition coil with another cylinder to confirm, then replace",
+        "Test and clean/replace injector for cylinder 1",
+        "Run a compression test on cylinder 1"
+      ],
+      "related_codes": ["P0300", "P0201"]
+    },
+    {
+      "code": "P0302",
+      "description": "Cylinder 2 Misfire Detected",
+      "system": "Ignition System",
+      "severity": "high",
+      "symptoms": ["check engine light (flashing under load)", "rough idle", "loss of power", "engine vibration"],
+      "components": ["spark plug (cyl 2)", "ignition coil (cyl 2)", "fuel injector (cyl 2)"],
+      "causes": [
+        {"cause": "fouled or worn spark plug in cylinder 2", "likelihood": "high"},
+        {"cause": "failing ignition coil for cylinder 2", "likelihood": "high"},
+        {"cause": "clogged or failed injector for cylinder 2", "likelihood": "medium"},
+        {"cause": "low compression in cylinder 2", "likelihood": "low"}
+      ],
+      "fixes": [
+        "Replace spark plug in cylinder 2",
+        "Swap ignition coil with another cylinder to confirm, then replace",
+        "Test and clean/replace injector for cylinder 2",
+        "Run a compression test on cylinder 2"
+      ],
+      "related_codes": ["P0300"]
+    },
+    {
+      "code": "P0325",
+      "description": "Knock Sensor 1 Circuit Malfunction",
+      "system": "Ignition System",
+      "severity": "moderate",
+      "symptoms": ["check engine light", "engine pinging/knocking under load", "reduced power (ECM pulls timing)"],
+      "components": ["knock sensor", "knock sensor wiring"],
+      "causes": [
+        {"cause": "failed knock sensor", "likelihood": "high"},
+        {"cause": "loose knock sensor mounting torque", "likelihood": "medium"},
+        {"cause": "open or shorted knock sensor wiring", "likelihood": "medium"}
+      ],
+      "fixes": [
+        "Test and replace knock sensor",
+        "Re-torque knock sensor to spec",
+        "Inspect knock sensor wiring/connector"
+      ],
+      "related_codes": ["P0300"]
+    },
+    {
+      "code": "P0335",
+      "description": "Crankshaft Position Sensor Circuit Malfunction",
+      "system": "Ignition System",
+      "severity": "high",
+      "symptoms": ["check engine light", "engine stalling", "hard or no-start", "intermittent misfire"],
+      "components": ["crankshaft position sensor", "reluctor/tone ring", "sensor wiring"],
+      "causes": [
+        {"cause": "failed crankshaft position sensor", "likelihood": "high"},
+        {"cause": "damaged reluctor ring/tone wheel", "likelihood": "medium"},
+        {"cause": "open or shorted sensor wiring", "likelihood": "medium"}
+      ],
+      "fixes": [
+        "Replace crankshaft position sensor",
+        "Inspect reluctor ring for damage",
+        "Repair sensor wiring/connector"
+      ],
+      "related_codes": ["P0300", "P0340"]
+    },
+    {
+      "code": "P0340",
+      "description": "Camshaft Position Sensor Circuit Malfunction",
+      "system": "Ignition System",
+      "severity": "moderate",
+      "symptoms": ["check engine light", "hard starting", "intermittent stalling", "reduced power"],
+      "components": ["camshaft position sensor", "sensor wiring"],
+      "causes": [
+        {"cause": "failed camshaft position sensor", "likelihood": "high"},
+        {"cause": "open or shorted sensor wiring", "likelihood": "medium"},
+        {"cause": "timing chain/belt wear affecting signal", "likelihood": "low"}
+      ],
+      "fixes": [
+        "Replace camshaft position sensor",
+        "Repair sensor wiring/connector",
+        "Inspect timing chain/belt condition"
+      ],
+      "related_codes": ["P0335", "P0300"]
+    },
+    {
+      "code": "P0401",
+      "description": "Exhaust Gas Recirculation Flow Insufficient Detected",
+      "system": "Auxiliary Emission Controls",
+      "severity": "moderate",
+      "symptoms": ["check engine light", "engine pinging/knocking under load", "failed emissions test", "rough idle"],
+      "components": ["EGR valve", "EGR passages", "EGR solenoid"],
+      "causes": [
+        {"cause": "carbon-clogged EGR valve or passages", "likelihood": "high"},
+        {"cause": "stuck-closed EGR valve", "likelihood": "medium"},
+        {"cause": "failed EGR solenoid/control circuit", "likelihood": "medium"}
+      ],
+      "fixes": [
+        "Clean carbon buildup from EGR valve and passages",
+        "Test and replace EGR valve if stuck",
+        "Test EGR solenoid and wiring"
+      ],
+      "related_codes": ["P0300"]
+    },
+    {
+      "code": "P0420",
+      "description": "Catalyst System Efficiency Below Threshold (Bank 1)",
+      "system": "Auxiliary Emission Controls",
+      "severity": "moderate",
+      "symptoms": ["check engine light", "failed emissions test", "sulfur smell from exhaust", "reduced fuel economy"],
+      "components": ["catalytic converter (Bank 1)", "upstream O2 sensor", "downstream O2 sensor"],
+      "causes": [
+        {"cause": "aging or damaged catalytic converter", "likelihood": "high"},
+        {"cause": "failed upstream or downstream O2 sensor giving false reading", "likelihood": "high"},
+        {"cause": "underlying rich or lean condition prematurely aging the catalyst", "likelihood": "medium"},
+        {"cause": "exhaust leak near sensors", "likelihood": "low"}
+      ],
+      "fixes": [
+        "Replace catalytic converter if confirmed degraded",
+        "Replace faulty O2 sensor(s) and retest before condemning the catalyst",
+        "Resolve any underlying fuel trim (rich/lean) fault first",
+        "Inspect exhaust for leaks near sensor bungs"
+      ],
+      "related_codes": ["P0130", "P0135", "P0171", "P0172"]
+    },
+    {
+      "code": "P0440",
+      "description": "Evaporative Emission Control System Malfunction",
+      "system": "Auxiliary Emission Controls",
+      "severity": "low",
+      "symptoms": ["check engine light", "faint fuel smell", "failed emissions test"],
+      "components": ["EVAP system (hoses, canister, purge valve)", "fuel cap"],
+      "causes": [
+        {"cause": "loose or faulty fuel cap", "likelihood": "high"},
+        {"cause": "cracked EVAP hose", "likelihood": "medium"},
+        {"cause": "failed purge or vent valve", "likelihood": "medium"}
+      ],
+      "fixes": [
+        "Check and tighten/replace fuel cap",
+        "Smoke-test EVAP system for leaks",
+        "Test purge and vent valves"
+      ],
+      "related_codes": ["P0442", "P0455"]
+    },
+    {
+      "code": "P0442",
+      "description": "EVAP System Leak Detected (Small Leak)",
+      "system": "Auxiliary Emission Controls",
+      "severity": "low",
+      "symptoms": ["check engine light", "faint fuel smell", "failed emissions test"],
+      "components": ["EVAP hoses/seals", "fuel cap", "purge valve"],
+      "causes": [
+        {"cause": "loose, cracked, or missing fuel cap", "likelihood": "high"},
+        {"cause": "small crack in an EVAP hose or seal", "likelihood": "high"},
+        {"cause": "faulty purge valve seal", "likelihood": "medium"}
+      ],
+      "fixes": [
+        "Check and replace fuel cap if damaged",
+        "Smoke-test EVAP system to pinpoint the small leak",
+        "Replace purge valve if it fails to seal"
+      ],
+      "related_codes": ["P0440", "P0455"]
+    },
+    {
+      "code": "P0455",
+      "description": "EVAP System Leak Detected (Large Leak/No Flow)",
+      "system": "Auxiliary Emission Controls",
+      "severity": "low",
+      "symptoms": ["check engine light", "noticeable fuel smell", "failed emissions test"],
+      "components": ["fuel cap", "EVAP canister", "EVAP hoses", "purge/vent valve"],
+      "causes": [
+        {"cause": "fuel cap missing, loose, or not sealing", "likelihood": "high"},
+        {"cause": "disconnected or badly cracked EVAP hose", "likelihood": "high"},
+        {"cause": "failed EVAP canister or vent valve stuck open", "likelihood": "medium"}
+      ],
+      "fixes": [
+        "Install/tighten fuel cap and retest",
+        "Inspect EVAP hoses for disconnection or major cracks",
+        "Replace canister or vent valve if faulty"
+      ],
+      "related_codes": ["P0440", "P0442"]
+    },
+    {
+      "code": "P0500",
+      "description": "Vehicle Speed Sensor Malfunction",
+      "system": "Vehicle Speed Controls / Idle Control",
+      "severity": "moderate",
+      "symptoms": ["check engine light", "erratic speedometer", "harsh or delayed transmission shifting", "ABS/traction control light"],
+      "components": ["vehicle speed sensor (VSS)", "VSS wiring", "tone ring"],
+      "causes": [
+        {"cause": "failed vehicle speed sensor", "likelihood": "high"},
+        {"cause": "damaged tone ring/reluctor", "likelihood": "medium"},
+        {"cause": "open or shorted VSS wiring", "likelihood": "medium"}
+      ],
+      "fixes": [
+        "Replace vehicle speed sensor",
+        "Inspect tone ring for damage",
+        "Repair VSS wiring/connector"
+      ],
+      "related_codes": ["P0700", "P0715"]
+    },
+    {
+      "code": "P0505",
+      "description": "Idle Air Control System Malfunction",
+      "system": "Vehicle Speed Controls / Idle Control",
+      "severity": "low",
+      "symptoms": ["check engine light", "high, low, or fluctuating idle speed", "stalling at idle"],
+      "components": ["idle air control (IAC) valve", "throttle body"],
+      "causes": [
+        {"cause": "carbon-fouled IAC valve or throttle body", "likelihood": "high"},
+        {"cause": "failed IAC valve/motor", "likelihood": "medium"},
+        {"cause": "vacuum leak near throttle body", "likelihood": "medium"}
+      ],
+      "fixes": [
+        "Clean throttle body and IAC valve passages",
+        "Replace IAC valve if faulty",
+        "Inspect throttle body gasket and nearby vacuum lines"
+      ],
+      "related_codes": ["P0171"]
+    },
+    {
+      "code": "P0562",
+      "description": "System Voltage Low",
+      "system": "Computer Output Circuit",
+      "severity": "high",
+      "symptoms": ["check engine light", "battery/charge warning light", "dim lights", "hard starting", "multiple erratic sensor codes"],
+      "components": ["battery", "alternator", "charging system wiring"],
+      "causes": [
+        {"cause": "weak or failing battery", "likelihood": "high"},
+        {"cause": "failing alternator/charging system", "likelihood": "high"},
+        {"cause": "corroded battery terminals or ground straps", "likelihood": "medium"}
+      ],
+      "fixes": [
+        "Load-test the battery and replace if weak",
+        "Test alternator output and replace if undercharging",
+        "Clean battery terminals and check ground connections"
+      ],
+      "related_codes": ["P0563", "P0601"]
+    },
+    {
+      "code": "P0563",
+      "description": "System Voltage High",
+      "system": "Computer Output Circuit",
+      "severity": "high",
+      "symptoms": ["check engine light", "battery/charge warning light", "bulbs burning out prematurely", "battery overheating"],
+      "components": ["alternator", "voltage regulator", "battery"],
+      "causes": [
+        {"cause": "faulty voltage regulator (overcharging)", "likelihood": "high"},
+        {"cause": "failing alternator", "likelihood": "medium"},
+        {"cause": "bad battery cell affecting regulation", "likelihood": "low"}
+      ],
+      "fixes": [
+        "Test charging voltage and replace voltage regulator/alternator if overcharging",
+        "Load-test the battery"
+      ],
+      "related_codes": ["P0562"]
+    },
+    {
+      "code": "P0601",
+      "description": "Internal Control Module Memory Check Sum Error",
+      "system": "Computer Output Circuit",
+      "severity": "high",
+      "symptoms": ["check engine light", "erratic or no-start behavior", "multiple unrelated codes appearing together"],
+      "components": ["ECM/PCM"],
+      "causes": [
+        {"cause": "corrupted ECM memory (often after a failed flash/reflash)", "likelihood": "high"},
+        {"cause": "unstable supply voltage during a prior ECM update", "likelihood": "medium"},
+        {"cause": "internal ECM hardware fault", "likelihood": "low"}
+      ],
+      "fixes": [
+        "Reflash/reprogram the ECM with correct software",
+        "Verify stable voltage supply before any reprogramming",
+        "Replace ECM if reflashing does not resolve it"
+      ],
+      "related_codes": ["P0562"]
+    },
+    {
+      "code": "P0700",
+      "description": "Transmission Control System Malfunction",
+      "system": "Transmission",
+      "severity": "high",
+      "symptoms": ["check engine light", "transmission warning light", "harsh/erratic shifting", "limp mode"],
+      "components": ["transmission control module (TCM)", "transmission wiring harness"],
+      "causes": [
+        {"cause": "a stored TCM-side fault triggering this umbrella code (check TCM for specific codes)", "likelihood": "high"},
+        {"cause": "damaged transmission wiring harness/connector", "likelihood": "medium"},
+        {"cause": "low or degraded transmission fluid", "likelihood": "medium"}
+      ],
+      "fixes": [
+        "Scan the TCM directly for the specific underlying transmission code",
+        "Inspect transmission wiring harness and connectors",
+        "Check transmission fluid level and condition"
+      ],
+      "related_codes": ["P0500", "P0715", "P0740"]
+    },
+    {
+      "code": "P0715",
+      "description": "Input/Turbine Speed Sensor Circuit Malfunction",
+      "system": "Transmission",
+      "severity": "high",
+      "symptoms": ["check engine light", "harsh or delayed shifting", "transmission stuck in one gear (limp mode)"],
+      "components": ["input/turbine speed sensor", "sensor wiring"],
+      "causes": [
+        {"cause": "failed input speed sensor", "likelihood": "high"},
+        {"cause": "open or shorted sensor wiring", "likelihood": "medium"},
+        {"cause": "low transmission fluid affecting sensor reading", "likelihood": "low"}
+      ],
+      "fixes": [
+        "Replace input/turbine speed sensor",
+        "Repair sensor wiring/connector",
+        "Check and correct transmission fluid level"
+      ],
+      "related_codes": ["P0700", "P0500"]
+    },
+    {
+      "code": "P0740",
+      "description": "Torque Converter Clutch Circuit Malfunction",
+      "system": "Transmission",
+      "severity": "moderate",
+      "symptoms": ["check engine light", "shudder at cruising speed", "poor fuel economy", "higher-than-normal RPM at highway speed"],
+      "components": ["torque converter clutch (TCC) solenoid", "TCC wiring"],
+      "causes": [
+        {"cause": "failed TCC solenoid", "likelihood": "high"},
+        {"cause": "degraded transmission fluid affecting TCC apply", "likelihood": "medium"},
+        {"cause": "open or shorted TCC wiring", "likelihood": "medium"}
+      ],
+      "fixes": [
+        "Replace TCC solenoid",
+        "Change transmission fluid and filter",
+        "Repair TCC wiring/connector"
+      ],
+      "related_codes": ["P0700"]
+    }
+  ]
+}
