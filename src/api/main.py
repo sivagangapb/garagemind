@@ -11,9 +11,11 @@ from __future__ import annotations
 
 import os
 import time
+from pathlib import Path
 
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 from src.agent.graph_agent import build_agent
@@ -73,7 +75,18 @@ def diagnose(payload: DiagnoseRequest) -> DiagnoseResponse:
     )
 
 
+# Mounted last so it never shadows the API routes above: FastAPI/Starlette
+# checks routes in registration order, so /health and /diagnose still match
+# first. This serves src/api/static/index.html -- the browser-based demo UI
+# -- at "/", so the API and its frontend ship as a single deployable unit.
+_static_dir = Path(__file__).parent / "static"
+app.mount("/", StaticFiles(directory=_static_dir, html=True), name="static")
+
+
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run(app, host="0.0.0.0", port=int(os.getenv("API_PORT", "8000")))
+    # Render (and most PaaS hosts) inject $PORT and expect the app to bind
+    # to it; API_PORT is the local-dev override from .env.example.
+    port = int(os.getenv("PORT") or os.getenv("API_PORT", "8000"))
+    uvicorn.run(app, host="0.0.0.0", port=port)

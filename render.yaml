@@ -1,0 +1,27 @@
+# Render.com "Blueprint" -- lets you deploy this whole app with one click
+# instead of manually configuring a web service.
+#
+# How to use it (takes ~2 minutes):
+#   1. Push this repo to GitHub (needs to be done once).
+#   2. Go to https://dashboard.render.com/blueprints and click "New Blueprint Instance".
+#   3. Connect this GitHub repo -- Render reads this file automatically.
+#   4. Click deploy. Render free-tier web services require a card on file
+#      but this app fits comfortably in the free 512MB/0.1 CPU tier.
+#   5. You get a public URL like https://garagemind.onrender.com -- that's
+#      your live demo link.
+#
+# To use a real LLM instead of the offline mode, add OPENAI_API_KEY (or
+# ANTHROPIC_API_KEY / GROQ_API_KEY) as a secret env var in the Render
+# dashboard after deploying -- see .env.example for the full list.
+
+services:
+  - type: web
+    name: garagemind
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python -m src.api.main
+    envVars:
+      # Render injects $PORT automatically; src/api/main.py reads it.
+      - key: PYTHON_VERSION
+        value: 3.11.9
